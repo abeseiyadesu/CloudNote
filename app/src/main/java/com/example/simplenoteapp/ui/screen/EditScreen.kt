@@ -103,7 +103,7 @@ fun EditScreenTopBar(
     },
         // 色を指定
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = colorResource(id= R.color.top_bar_color),         // 背景色を指定
+            containerColor = colorResource(id = R.color.top_bar_color),         // 背景色を指定
             titleContentColor = Color.White,            // タイトルの色を指定
             navigationIconContentColor = Color.White,   // ナビゲーションアイコンの色
             actionIconContentColor = Color.White        // アクションアイコンの色
@@ -177,10 +177,10 @@ fun EditScreenLayout(
     Column(
         modifier = Modifier.padding(paddingValues)
     ) {
-        // 見出しの部分で改行ボタンを押したとき次のtextFieldへフォーカスさせたいため必要
+        // 見出しの部分で改行ボタンを押したとき
+        // 次のtextFieldへフォーカスさせたいため必要
         val focusRequester1 = remember { FocusRequester() }
         val focusRequester2 = remember { FocusRequester() }
-
 
         // 見出し
         TextField(
@@ -194,9 +194,11 @@ fun EditScreenLayout(
                 focusedContainerColor = Color.White,         // 背景色（フォーカス時）
             ),
             textStyle = TextStyle(fontSize = 24.sp),         // 文字サイズを大きく
+
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
+            // 次の　TextFieldへ　フォーカス
             keyboardActions = KeyboardActions(
                 onNext = { focusRequester2.requestFocus() }
             )
