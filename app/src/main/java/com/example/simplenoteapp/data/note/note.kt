@@ -10,4 +10,6 @@ data class Note(
     val id: Int = 0,
     var header: String, //
     var detail: String
-)
+){
+    constructor() : this(0,"", "")
+}

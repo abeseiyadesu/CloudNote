@@ -3,7 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
-
+    id("com.google.gms.google-services")
+    id("kotlin-kapt") // Firestore を使う場合に必要
 }
 
 android {
@@ -71,5 +72,12 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
 
     ksp("androidx.room:room-compiler:$roomVersion")
+
+    // firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+
 
 }
