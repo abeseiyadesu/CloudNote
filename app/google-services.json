@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "236520574464",
-    "project_id": "cloud-note-de198",
-    "storage_bucket": "cloud-note-de198.firebasestorage.app"
+    "project_number": "189529928203",
+    "project_id": "fir-note-app-64df0",
+    "storage_bucket": "fir-note-app-64df0.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:236520574464:android:3c373c8d59846ed85752e5",
+        "mobilesdk_app_id": "1:189529928203:android:308ef7ca1d0e9e0a10cd0e",
         "android_client_info": {
-          "package_name": "com.example.simplenoteapp"
+          "package_name": "com.example.firebasenoteapp"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDzYs63JZeJ3bzl2Pb9YXYk2Ol1gCGWqeI"
+          "current_key": "AIzaSyDNxxM1DH4kh3Jx5VuwiY0fqWK4q1PwZks"
         }
       ],
       "services": {

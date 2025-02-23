@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.simplenoteapp"
+    namespace = "com.example.firebasenoteapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.simplenoteapp"
+        applicationId = "com.example.firebasenoteapp"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -78,4 +78,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
+    implementation ("com.google.firebase:firebase-auth-ktx")
+
+
 }

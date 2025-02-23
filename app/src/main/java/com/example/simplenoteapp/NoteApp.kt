@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
-import com.example.simplenoteapp.auth.AuthViewModel
 import com.example.simplenoteapp.ui.home.HomeScreen
 import com.example.simplenoteapp.ui.screen.EditScreen
 import com.example.simplenoteapp.ui.screen.FreeSpaceScreen
@@ -25,22 +23,8 @@ fun NoteApp() {
         // NavController を生成
         val navController = rememberNavController()
 
-        // AuthViewModelをViewModelScope内で管理する
-        val authViewModel: AuthViewModel = viewModel()
-
         NavHost(navController = navController, startDestination = "auth") {
-            composable(
-                route = "auth"
-            ) {
-                AuthScreen(
-                    authViewModel = authViewModel,
-                    onLoginSuccess = {
-                        navController.navigate("home") {
-                            popUpTo("auth") { inclusive = true }
-                        }
-                    }
-                )
-            }
+
 
             // ホーム画面へ移動
             composable(

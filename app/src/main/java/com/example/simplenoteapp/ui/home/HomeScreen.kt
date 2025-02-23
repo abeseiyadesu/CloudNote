@@ -84,9 +84,6 @@ fun HomeScreen(
         noteViewModel.listenForFirestoreUpdates()
     }
 
-    // ViewModel　から　ノートの　リストを　取得
-//    val notes by noteViewModel.allNotes.observeAsState(initial = emptyList())
-
     // Scaffold構造でアプリのレイアウトを構築
     Scaffold(
         topBar = {
@@ -113,11 +110,11 @@ fun HomeScreen(
                     .padding(paddingValues)
             ) { }
             // メインコンテンツ
-//            HomeScreenLayout(
-//                notes = notes,
-//                paddingValues = paddingValues,
-//                navController = navController
-//            )
+            HomeScreenLayout(
+                notes = notes,
+                paddingValues = paddingValues,
+                navController = navController
+            )
         }
     )
 }
