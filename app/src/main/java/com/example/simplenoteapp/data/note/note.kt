@@ -8,8 +8,9 @@ import androidx.room.PrimaryKey
 data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    var header: String, //
-    var detail: String
-){
-    constructor() : this(0,"", "")
+    var header: String = "",
+    var detail: String = "",
+    val userId: String = ""
+) {
+    constructor() : this(0, "", "","")
 }

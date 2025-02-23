@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import com.example.simplenoteapp.auth.AuthViewModel
 import com.example.simplenoteapp.ui.home.HomeScreen
 import com.example.simplenoteapp.ui.screen.EditScreen
 import com.example.simplenoteapp.ui.screen.FreeSpaceScreen
@@ -20,9 +22,27 @@ fun NoteApp() {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
+        // NavController を生成
         val navController = rememberNavController()
 
-        NavHost(navController = navController, startDestination = "home") {
+        // AuthViewModelをViewModelScope内で管理する
+        val authViewModel: AuthViewModel = viewModel()
+
+        NavHost(navController = navController, startDestination = "auth") {
+            composable(
+                route = "auth"
+            ) {
+                AuthScreen(
+                    authViewModel = authViewModel,
+                    onLoginSuccess = {
+                        navController.navigate("home") {
+                            popUpTo("auth") { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            // ホーム画面へ移動
             composable(
                 route = "home",
             ) {
@@ -31,8 +51,9 @@ fun NoteApp() {
                 )
             }
 
-            // どの漫画かを　特定　するため　Id　を渡す必要がある
+            //
             composable(
+                // どのnoteを　特定　するため　Id　を渡す必要がある
                 route = "edit/{noteId}",
                 // Idは　Int型のため  Int  に変換する必要がある
                 arguments = listOf(
@@ -68,8 +89,9 @@ fun NoteApp() {
                 }
             }
 
+            // フリースペースへ遷移
             composable(
-                route="freespace",
+                route = "freespace",
 
                 // 移動する方に書く
                 enterTransition = {
@@ -88,7 +110,7 @@ fun NoteApp() {
                         towards = AnimatedContentTransitionScope.SlideDirection.End
                     )
                 }   // 右から左へスライドアウト
-            ){
+            ) {
                 FreeSpaceScreen(
                     navController = navController,
                 )

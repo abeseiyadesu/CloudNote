@@ -23,4 +23,11 @@ interface NoteDao {
 
     @Delete
     suspend fun delete(note: Note)
+
+    @Query("SELECT * FROM notes WHERE userId = :userId ORDER BY id DESC")
+    fun getNotesByUser(userId:String):LiveData<List<Note>>
+
+    // ログアウト時などに全データを削除
+    @Query("DELETE FROM notes WHERE userId = :userId")
+    suspend fun deleteNotesByUser(userId: String)
 }

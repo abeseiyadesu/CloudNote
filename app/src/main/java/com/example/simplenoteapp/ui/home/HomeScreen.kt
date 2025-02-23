@@ -79,8 +79,13 @@ fun HomeScreen(
     navController: NavController,
     noteViewModel: NoteViewModel = viewModel()
 ) {
+    LaunchedEffect(Unit) {
+        noteViewModel.fetchNotesFromFirestore()
+        noteViewModel.listenForFirestoreUpdates()
+    }
+
     // ViewModel　から　ノートの　リストを　取得
-    val notes by noteViewModel.allNotes.observeAsState(initial = emptyList())
+//    val notes by noteViewModel.allNotes.observeAsState(initial = emptyList())
 
     // Scaffold構造でアプリのレイアウトを構築
     Scaffold(
@@ -102,12 +107,17 @@ fun HomeScreen(
             )
         },
         content = { paddingValues ->
+
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+            ) { }
             // メインコンテンツ
-            HomeScreenLayout(
-                notes = notes,
-                paddingValues = paddingValues,
-                navController = navController
-            )
+//            HomeScreenLayout(
+//                notes = notes,
+//                paddingValues = paddingValues,
+//                navController = navController
+//            )
         }
     )
 }

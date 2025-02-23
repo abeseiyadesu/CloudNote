@@ -12,4 +12,9 @@ class NoteRepository(private val noteDao: NoteDao) {
     suspend fun getNoteById(id: Int): Note? {
         return noteDao.getNoteById(id)
     }
+
+    fun getNotesForUser(userId: String): LiveData<List<Note>> {
+        return noteDao.getNotesByUser(userId)
+    }
+
 }
