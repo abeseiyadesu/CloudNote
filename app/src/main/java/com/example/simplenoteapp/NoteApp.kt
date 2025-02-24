@@ -23,6 +23,8 @@ fun NoteApp() {
         // NavController を生成
         val navController = rememberNavController()
 
+        
+
         NavHost(navController = navController, startDestination = "auth") {
 
 
