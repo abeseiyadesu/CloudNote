@@ -64,15 +64,17 @@ fun signUpScreen(
         )
 
         Button(onClick = {
-            authViewModel.signUp(email,password)
-        }){
+            authViewModel.signUp(email, password)
+        }) {
             Text(text = "アカウントを登録")
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
 
-        Button(onClick = { navController.navigate("login") }) {
+        Button(onClick = {
+            navController.navigate("login")
+        }) {
             Text(text = "ログイン画面へ")
         }
 

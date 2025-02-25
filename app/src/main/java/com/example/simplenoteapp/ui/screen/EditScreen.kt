@@ -20,9 +20,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,35 +28,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.simplenoteapp.data.note.Note
-import com.example.simplenoteapp.data.NoteViewModel
-import androidx.compose.ui.res.colorResource
-import com.example.simplenoteapp.R
+import com.example.firebasenoteapp.R
+import com.example.simplenoteapp.ui.data.Note
+import com.example.simplenoteapp.ui.data.NoteViewModel
 
 @Composable
 fun EditScreen(
-    navController: NavController, noteViewModel: NoteViewModel = viewModel(), noteId: Int
+    navController: NavController,
+    noteViewModel: NoteViewModel = viewModel(),
+    noteId: String
 ) {
     var inputHeader by remember { mutableStateOf("") }
     var inputDetail by remember { mutableStateOf("") }
 
     // id　に応じたノート を獲得
-    val note by noteViewModel.getNoteById(noteId).observeAsState()
 
-    // 初期値を設定
-    LaunchedEffect(note) {
-        note?.let {
-            inputHeader = it.header
-            inputDetail = it.detail
-        }
-    }
+//    // 初期値を設定
+//    LaunchedEffect(note) {
+//        note?.let {
+//            inputHeader = it.header
+//            inputDetail = it.detail
+//        }
+//    }
 
     // 戻るボタンの処理
     BackHandler {
@@ -94,7 +91,7 @@ fun EditScreen(
 fun EditScreenTopBar(
     navController: NavController,
     noteViewModel: NoteViewModel = viewModel(),
-    noteId: Int,
+    noteId: String,
     inputHeader: String,
     inputDetail: String
 ) {
@@ -136,7 +133,7 @@ fun EditScreenTopBar(
 fun NavigateSaveBack(
     navController: NavController,
     noteViewModel: NoteViewModel,
-    noteId: Int,
+    noteId: String,
     inputHeader: String,
     inputDetail: String,
     route: String
@@ -145,16 +142,18 @@ fun NavigateSaveBack(
     if (inputHeader.trim().isNotBlank() || inputDetail.trim().isNotBlank()) {
         // 保存用
         val updatedNote = Note(
-            id = noteId,
-            header = inputHeader,
-            detail = inputDetail
+            noteId = noteId,
+            title = inputHeader,
+            content = inputDetail
         )
 
         // データを保存する（新規作成または編集）
-        if (noteId == 0) {
-            noteViewModel.insertNote(updatedNote)
+        if (noteId == "0") {
+            noteViewModel.saveNote(
+                title = inputHeader,
+                content = inputDetail)
         } else {
-            noteViewModel.updateNote(updatedNote)
+//            noteViewModel.updateNote(updatedNote)
         }
 
         // `home` 画面へ戻る

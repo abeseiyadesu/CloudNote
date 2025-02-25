@@ -52,8 +52,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.simplenoteapp.data.note.Note
-import com.example.simplenoteapp.data.NoteViewModel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -65,7 +63,9 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.colorResource
-import com.example.simplenoteapp.R
+import com.example.firebasenoteapp.R
+import com.example.simplenoteapp.ui.data.Note
+import com.example.simplenoteapp.ui.data.NoteViewModel
 import kotlinx.coroutines.launch
 
 private enum class OpenedSwipeAbleState {
@@ -79,10 +79,8 @@ fun HomeScreen(
     navController: NavController,
     noteViewModel: NoteViewModel = viewModel()
 ) {
-    LaunchedEffect(Unit) {
-        noteViewModel.fetchNotesFromFirestore()
-        noteViewModel.listenForFirestoreUpdates()
-    }
+
+    val notes by noteViewModel.notes.collectAsState()
 
     // Scaffold構造でアプリのレイアウトを構築
     Scaffold(
@@ -157,7 +155,6 @@ fun HomeScreenFloatingActionButton(
     }
 }
 
-
 @Composable
 fun HomeScreenLayout(
     notes: List<Note>,
@@ -171,7 +168,6 @@ fun HomeScreenLayout(
         modifier = Modifier
             .padding(paddingValues)
     ) {
-
         Text(
             text = "フリースペース",
             fontSize = 10.sp,
@@ -204,17 +200,16 @@ fun HomeScreenLayout(
             items(notes) { note ->
                 HorizontalDivider(thickness = 1.dp)
                 SwipeableRow(
-                    noteId = note.id,
+                    noteId = note.noteId,
                     onSwipe = {
                         currentNoteToDelete = note
                     }
                 ) {
                     NoteItems(
                         onTap = {
-                            navController.navigate("edit/${note.id}")
+                            navController.navigate("edit/${note.noteId}")
                         },
-                        header = note.header
-                    )
+                        header = note.title                   )
                 }
                 HorizontalDivider(thickness = 1.dp)
             }
@@ -230,7 +225,7 @@ fun HomeScreenLayout(
                     TextButton(
                         onClick = {
                             // 削除ボタンが押されたらnoteを消す
-                            noteViewModel.deleteNote(note)
+//                            noteViewModel.deleteNote(note)
                             // このnoteを消すと必要なくなるので NULL にする
                             // null にしない場合 アラートが出続ける
                             currentNoteToDelete = null
@@ -281,7 +276,7 @@ fun NoteItems(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SwipeableRow(
-    noteId: Int,
+    noteId: String,
     onSwipe: () -> Unit,
     content: @Composable () -> Unit
 ) {
@@ -409,69 +404,15 @@ fun HomeScreenLayoutPreview() {
     val navController = rememberNavController()
     val paddingValues = PaddingValues(16.dp)
     // 仮のデータを用意
-    val notes = listOf(
-        Note(id = 1, header = "Comic 1", detail = ""),
-        Note(id = 2, header = "Comic 2", detail = ""),
-        Note(id = 3, header = "Comic 3", detail = "")
-    )
-
-    HomeScreenLayout(
-        notes = notes,
-        paddingValues = paddingValues,
-        navController = navController
-    )
-}
-
-
-//@Composable
-//fun HomeScreenButtomBar() {
-//    BottomAppBar(
-//        actions = {
-//            IconButton(onClick = {}){
-////                Icon(I)
-//            }
-//        }
+//    val notes = listOf(
+//        Note(id = 1, header = "Comic 1", detail = ""),
+//        Note(id = 2, header = "Comic 2", detail = ""),
+//        Note(id = 3, header = "Comic 3", detail = "")
 //    )
-//}
-
-
 //
-//@Composable
-//fun HomeScreenAlertDialog(
-//    onClick: () -> Unit,
-//    showDialog: Boolean
-//) {
-//    //　削除時ダイアログを出す
-//    if (showDialog) {
-//        AlertDialog(
-//            onDismissRequest = { showDialog = false }, //
-//            title = { Text(text = "削除の確認") },
-//            text = { Text(text = "本当に削除しますか？この操作は元に戻せません。") },
-//            confirmButton = {
-//                TextButton(
-//                    onClick = {
-//                        onClick
-//                        showDialog = false
-//                    },
-//                    colors = ButtonDefaults.textButtonColors(
-//                        containerColor = Color(0xFF25beb1),
-//                        contentColor = Color.Black
-//                    )
-//                ) {
-//                    Text(text = "削除")
-//                }
-//            },
-//            dismissButton = {
-//                TextButton(
-//                    onClick = { showDialog = false },
-//                    colors = ButtonDefaults.textButtonColors(
-//                        containerColor = Color(0xFF25beb1),
-//                        contentColor = Color.Black
-//                    )
-//                ) {
-//                    Text(text = "キャンセル")
-//                }
-//            }
-//        )
-//    }
-//}
+//    HomeScreenLayout(
+//        notes = notes,
+//        paddingValues = paddingValues,
+//        navController = navController
+//    )
+}

@@ -13,7 +13,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.example.simplenoteapp.ui.home.HomeScreen
 import com.example.simplenoteapp.ui.screen.EditScreen
-import com.example.simplenoteapp.ui.screen.FreeSpaceScreen
+import com.example.simplenoteapp.ui.screen.LoginScreen
+import com.example.simplenoteapp.ui.screen.signUpScreen
+
+//import com.example.simplenoteapp.ui.screen.FreeSpaceScreen
 
 @Composable
 fun NoteApp() {
@@ -23,11 +26,15 @@ fun NoteApp() {
         // NavController を生成
         val navController = rememberNavController()
 
-        
+        NavHost(navController = navController, startDestination = "signup") {
 
-        NavHost(navController = navController, startDestination = "auth") {
+            composable("login"){
+                LoginScreen(navController)
+            }
 
-
+            composable("signup"){
+                signUpScreen(navController)
+            }
             // ホーム画面へ移動
             composable(
                 route = "home",
@@ -44,7 +51,7 @@ fun NoteApp() {
                 // Idは　Int型のため  Int  に変換する必要がある
                 arguments = listOf(
                     androidx.navigation.navArgument("noteId") {
-                        type = androidx.navigation.NavType.IntType
+                        type = androidx.navigation.NavType.StringType
                     }
                 ),
                 // 移動する方に書く
@@ -65,7 +72,7 @@ fun NoteApp() {
                     )
                 }   // 右から左へスライドアウト
             ) { backStackEntry ->
-                val noteId = backStackEntry.arguments?.getInt("noteId")
+                val noteId = backStackEntry.arguments?.getString("noteId")
                 // nullチェック
                 if (noteId != null) {
                     EditScreen(
@@ -74,33 +81,33 @@ fun NoteApp() {
                     )
                 }
             }
-
-            // フリースペースへ遷移
-            composable(
-                route = "freespace",
-
-                // 移動する方に書く
-                enterTransition = {
-                    slideIntoContainer(
-                        animationSpec = tween(100, easing = EaseIn),
-                        // アニメーションが進行する方向を指定するプロパティ
-                        // ➙
-                        towards = AnimatedContentTransitionScope.SlideDirection.Start
-                    )
-                },  // 左から右へスライドイン
-                exitTransition = {
-                    slideOutOfContainer(
-                        animationSpec = tween(100, easing = EaseOut),
-                        // アニメーションが進行する方向を指定するプロパティ
-                        // ←
-                        towards = AnimatedContentTransitionScope.SlideDirection.End
-                    )
-                }   // 右から左へスライドアウト
-            ) {
-                FreeSpaceScreen(
-                    navController = navController,
-                )
-            }
+//
+//            // フリースペースへ遷移
+//            composable(
+//                route = "freespace",
+//
+//                // 移動する方に書く
+//                enterTransition = {
+//                    slideIntoContainer(
+//                        animationSpec = tween(100, easing = EaseIn),
+//                        // アニメーションが進行する方向を指定するプロパティ
+//                        // ➙
+//                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+//                    )
+//                },  // 左から右へスライドイン
+//                exitTransition = {
+//                    slideOutOfContainer(
+//                        animationSpec = tween(100, easing = EaseOut),
+//                        // アニメーションが進行する方向を指定するプロパティ
+//                        // ←
+//                        towards = AnimatedContentTransitionScope.SlideDirection.End
+//                    )
+//                }   // 右から左へスライドアウト
+//            ) {
+//                FreeSpaceScreen(
+//                    navController = navController,
+//                )
+//            }
 
         }
     }
