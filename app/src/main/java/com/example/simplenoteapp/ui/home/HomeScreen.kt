@@ -225,8 +225,9 @@ fun HomeScreenLayout(
                     TextButton(
                         onClick = {
                             // 削除ボタンが押されたらnoteを消す
-//                            noteViewModel.deleteNote(note)
-                            // このnoteを消すと必要なくなるので NULL にする
+                            noteViewModel.deleteNote(note.noteId)
+
+                            // 現在のnoteを消すと アラートは必要なくなるので NULL にする
                             // null にしない場合 アラートが出続ける
                             currentNoteToDelete = null
                         }

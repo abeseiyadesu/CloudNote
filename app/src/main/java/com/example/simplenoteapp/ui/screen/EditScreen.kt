@@ -20,6 +20,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,18 +45,22 @@ fun EditScreen(
     noteViewModel: NoteViewModel = viewModel(),
     noteId: String
 ) {
-    var inputHeader by remember { mutableStateOf("") }
-    var inputDetail by remember { mutableStateOf("") }
+    var inputHeader by remember { mutableStateOf("タイトルを入力") }
+    var inputDetail by remember { mutableStateOf("詳細を入力") }
 
     // id　に応じたノート を獲得
 
-//    // 初期値を設定
-//    LaunchedEffect(note) {
-//        note?.let {
-//            inputHeader = it.header
-//            inputDetail = it.detail
-//        }
-//    }
+    // 初期値を設定
+    LaunchedEffect(noteId) {
+        if (noteId != "0") {
+            noteViewModel.getNoteById(noteId) { note ->
+                note?.let {
+                    inputHeader = it.title
+                    inputDetail = it.content
+                }
+            }
+        }
+    }
 
     // 戻るボタンの処理
     BackHandler {
@@ -148,13 +153,12 @@ fun NavigateSaveBack(
         )
 
         // データを保存する（新規作成または編集）
-        if (noteId == "0") {
-            noteViewModel.saveNote(
-                title = inputHeader,
-                content = inputDetail)
-        } else {
-//            noteViewModel.updateNote(updatedNote)
-        }
+        noteViewModel.saveNote(
+            noteId = noteId,
+            title = inputHeader,
+            content = inputDetail
+        )
+
 
         // `home` 画面へ戻る
         if (navController.previousBackStackEntry != null) {

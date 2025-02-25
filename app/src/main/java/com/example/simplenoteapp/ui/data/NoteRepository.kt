@@ -26,19 +26,8 @@ class NoteRepository {
             .collection("userNotes")
             .document(note.noteId)
 
-        noteRef.set(note).await()// Firestoreに保存
+        noteRef.set(note).await()   // Firestoreに保存
     }
-//
-//    // メモを読み込む
-//    suspend fun getNotes(onResult:(List<Note>)->Unit): List<Note> {
-//        val userId = getUserId() ?: return emptyList()
-//        val snapshot = db.collection("notes")
-//            .document(userId)
-//            .collection("userNotes")
-//            .get()
-//            .await()
-//        return snapshot.documents.mapNotNull { it.toObject(Note::class.java) }
-//    }
 
     // メモをリアルタイム読み込み
     fun getNotes(onResult: (List<Note>) -> Unit) {
@@ -54,8 +43,22 @@ class NoteRepository {
                     Log.e("Firestore", "メモの取得に失敗", exception)
                     return@addSnapshotListener
                 }
-                val notes=snapshot?.documents?.mapNotNull { it.toObject(Note::class.java) }?: emptyList()
+                val notes =
+                    snapshot?.documents?.mapNotNull { it.toObject(Note::class.java) } ?: emptyList()
                 onResult(notes)
             }
     }
+
+    // メモを削除
+    suspend fun deleteNote(noteId: String) {
+        // getUserId が Nullの場合 関数を終了 する  その場合ユーザーがいなければ終了
+        val userId = getUserId() ?: return
+        val noteRef=db.collection("notes")
+            .document(userId)
+            .collection("userNotes")
+            .document(noteId)
+
+        noteRef.delete().await()    // Firestoreから削除
+    }
+
 }
