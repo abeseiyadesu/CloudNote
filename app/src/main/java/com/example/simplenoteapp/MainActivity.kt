@@ -6,13 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.simplenoteapp.NoteApp
 import com.example.simplenoteapp.ui.theme.SimpleNoteAppTheme
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-
-//data class Memo(val title: String, val content: String){
-//    constructor() : this("", "") // Firestore 用の引数なしコンストラクタ
-//}
-//
-//val db = FirebaseFirestore.getInstance()
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,24 +20,24 @@ class MainActivity : ComponentActivity() {
         //　インスタンスを取得
         val db = FirebaseFirestore.getInstance()
 
-        setContent {
-            SimpleNoteAppTheme {
-                NoteApp()
-            }
+        val auth = FirebaseAuth.getInstance()
 
+        // すでにログインしているユーザー が 再度ログインしなくていいようにするため必要
+        // ユーザーの認証状態を監視
+        auth.addAuthStateListener { firebaseAuth ->
+            val currentUser = firebaseAuth.currentUser
+
+            // currentUser の状態によってルートを決める
+            val startDestination = if (currentUser != null) "home" else "login"
+            setContent {
+                SimpleNoteAppTheme {
+                    // 初期画面を決定
+                    NoteApp(startDestination = startDestination)
+                }
+
+            }
         }
+
+
     }
 }
-//
-//fun addMemo() {
-//    val memo = Memo("新しいメモだよ", "これは firestore に保存されたメモですね")
-//
-//    db.collection("memos") // "memos" というコレクション（フォルダ）を作る
-//        .add(memo) // メモを追加
-//        .addOnSuccessListener { documentReference ->
-//            println("メモを追加しました！ID: ${documentReference.id}")
-//        }
-//        .addOnFailureListener { e ->
-//            println("エラー: $e")
-//        }
-//}

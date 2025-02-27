@@ -17,14 +17,14 @@ import com.example.simplenoteapp.ui.screen.LoginScreen
 import com.example.simplenoteapp.ui.screen.signUpScreen
 
 @Composable
-fun NoteApp() {
+fun NoteApp(startDestination: String = "login") {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
         // NavController を生成
         val navController = rememberNavController()
 
-        NavHost(navController = navController, startDestination = "login") {
+        NavHost(navController = navController, startDestination = startDestination) {
 
             composable("login"){
                 LoginScreen(navController)
