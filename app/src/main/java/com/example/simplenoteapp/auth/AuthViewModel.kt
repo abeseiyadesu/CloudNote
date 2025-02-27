@@ -22,6 +22,20 @@ class AuthViewModel : ViewModel() {
     private val _errorMessage = MutableStateFlow("")
     val errorMessage: StateFlow<String> get() = _errorMessage
 
+    // 新規登録処理
+    fun signUp(email: String, password: String) {
+        viewModelScope.launch {
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        _isLoggedIn.value = true
+                    } else {
+                        _errorMessage.value = "登録に失敗しました"
+                    }
+                }
+        }
+    }
+
     // ログイン処理
     fun login(email: String, password: String) {
         viewModelScope.launch {
@@ -36,17 +50,10 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    // 新規登録処理
-    fun signUp(email: String, password: String) {
-        viewModelScope.launch {
-            auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        _isLoggedIn.value = true
-                    } else {
-                        _errorMessage.value = "登録に失敗しました"
-                    }
-                }
-        }
+    // ログアウト
+    fun logout() {
+        auth.signOut()
+        _isLoggedIn.value = false
     }
+
 }

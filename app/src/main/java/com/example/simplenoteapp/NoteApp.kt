@@ -16,8 +16,6 @@ import com.example.simplenoteapp.ui.screen.EditScreen
 import com.example.simplenoteapp.ui.screen.LoginScreen
 import com.example.simplenoteapp.ui.screen.signUpScreen
 
-//import com.example.simplenoteapp.ui.screen.FreeSpaceScreen
-
 @Composable
 fun NoteApp() {
     Surface(

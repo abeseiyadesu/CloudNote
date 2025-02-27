@@ -58,11 +58,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
 import androidx.compose.foundation.gestures.snapTo
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.colorResource
 import com.example.firebasenoteapp.R
+import com.example.simplenoteapp.auth.AuthViewModel
 import com.example.simplenoteapp.ui.data.Note
 import com.example.simplenoteapp.ui.data.NoteViewModel
 import kotlinx.coroutines.launch
@@ -91,7 +94,8 @@ fun HomeScreen(
                     titleContentColor = Color.White,                // タイトルの色を指定
                     navigationIconContentColor = Color.White,       // ナビゲーションアイコンの色
                     actionIconContentColor = Color.White            // アクションアイコンの色
-                )
+                ),
+                navController = navController
             )
         },
         floatingActionButton = {
@@ -100,7 +104,6 @@ fun HomeScreen(
             )
         },
         content = { paddingValues ->
-
             Column(
                 modifier = Modifier
                     .padding(paddingValues)
@@ -119,20 +122,66 @@ fun HomeScreen(
 @Composable
 fun HomeScreenTopBar(
     title: String,
-    colors: TopAppBarColors
+    colors: TopAppBarColors,
+    navController: NavController,
+    authViewModel: AuthViewModel = viewModel()
 ) {
+    // ダイアログ表示用
+    var openDialog = remember { mutableStateOf(false) }
+
     TopAppBar(
         title = {
             Text(title)
         },
         // top barの　色　を指定する
-        colors = colors
+        colors = colors,
+        // ログアウトボタン
+        actions = {
+            IconButton(onClick = {
+                openDialog.value = true
+            }) {
+                Icon(
+                    imageVector = Icons.Default.ExitToApp,
+                    contentDescription = "ログアウト"
+                )
+            }
+
+        }
+
     )
+
+    // 関数化したほうがいい
+    // ログアウト確認ダイアログ
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = { openDialog.value = false }, // ダイアログ外のタップで閉じる
+            title = { Text("ログアウト") },
+            text = { Text("ログアウトしますか？") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        authViewModel.logout()
+                        navController.navigate("login") {
+                            popUpTo("home_screen") { inclusive = true } // home画面を飛ばす
+                        }
+                    }
+                ) {
+                    Text("ログアウト")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { openDialog.value = false }) {
+                    Text("キャンセル")
+                }
+            }
+        )
+    }
+
 }
 
 @Composable
 fun HomeScreenFloatingActionButton(
-    navController: NavController,
+    navController: NavController
 ) {
     FloatingActionButton(
         onClick = {
@@ -141,9 +190,9 @@ fun HomeScreenFloatingActionButton(
         },
         // 形を丸に設定
         shape = CircleShape,
-        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+        containerColor =  Color(0xFF36454F),
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
-        contentColor = Color.Black
+        contentColor = Color.White
     ) {
         // アイコン設定
         Icon(
@@ -166,20 +215,6 @@ fun HomeScreenLayout(
         modifier = Modifier
             .padding(paddingValues)
     ) {
-        Text(
-            text = "フリースペース",
-            fontSize = 10.sp,
-            modifier = Modifier.padding(4.dp)
-        )
-        HorizontalDivider(thickness = 1.dp)
-        // フリースペース（ 位置固定 ）
-        NoteItems(
-            onTap = {
-                navController.navigate("freespace")
-            },
-            header = ""
-        )
-
         // ノート数 表示
         HorizontalDivider(thickness = 1.dp)
         Text(
@@ -207,7 +242,8 @@ fun HomeScreenLayout(
                         onTap = {
                             navController.navigate("edit/${note.noteId}")
                         },
-                        header = note.title                   )
+                        header = note.title
+                    )
                 }
                 HorizontalDivider(thickness = 1.dp)
             }
@@ -377,7 +413,7 @@ fun DeleteButtonLayout(
             text = "削除",
             color = Color.White,
             fontWeight = FontWeight.Bold
-            )
+        )
     }
 }
 
@@ -392,7 +428,8 @@ fun HomeScreenTopBarPreview() {
             titleContentColor = Color.White,                // タイトルの色を指定
             navigationIconContentColor = Color.White,       // ナビゲーションアイコンの色
             actionIconContentColor = Color.White            // アクションアイコンの色
-        )
+        ),
+        navController = rememberNavController()
     )
 }
 

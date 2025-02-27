@@ -98,8 +98,6 @@ fun EditScreen(
                 )
         }
     )
-
-
 }
 
 
@@ -233,7 +231,6 @@ fun EditScreenLayout(
                 focusedContainerColor = Color.White,         // 背景色（フォーカス時）
             ),
             textStyle = TextStyle(fontSize = 24.sp),         // 文字サイズを大きく
-
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
@@ -256,7 +253,5 @@ fun EditScreenLayout(
                 focusedContainerColor = Color.White,        // 背景色（フォーカス時）
             ),
         )
-
-
     }
 }
