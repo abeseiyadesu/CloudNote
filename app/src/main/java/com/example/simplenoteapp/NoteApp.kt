@@ -26,7 +26,7 @@ fun NoteApp() {
         // NavController を生成
         val navController = rememberNavController()
 
-        NavHost(navController = navController, startDestination = "signup") {
+        NavHost(navController = navController, startDestination = "login") {
 
             composable("login"){
                 LoginScreen(navController)
@@ -44,7 +44,7 @@ fun NoteApp() {
                 )
             }
 
-            //
+            //編集画面へ
             composable(
                 // どのnoteを　特定　するため　Id　を渡す必要がある
                 route = "edit/{noteId}",

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.simplenoteapp.ui.auth.AuthViewModel
+import com.example.simplenoteapp.auth.AuthViewModel
 
 @Composable
 fun LoginScreen(
@@ -61,7 +61,7 @@ fun LoginScreen(
             value = password,
             onValueChange = { password = it },
             label = { Text("パスワード") },
-            visualTransformation = PasswordVisualTransformation()
+//            visualTransformation = PasswordVisualTransformation()
         )
 
         Spacer(modifier = Modifier.height(16.dp))

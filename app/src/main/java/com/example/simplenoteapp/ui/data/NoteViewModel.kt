@@ -43,7 +43,7 @@ class NoteViewModel : ViewModel() {
         }
 
         val note = Note(
-            noteId = noteId,
+            noteId = finalNoteId,
             title = title,
             content = content,
             timestamp = System.currentTimeMillis()

@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.simplenoteapp.ui.auth.AuthViewModel
+import com.example.simplenoteapp.auth.AuthViewModel
 
 @Composable
 fun signUpScreen(
@@ -55,7 +55,6 @@ fun signUpScreen(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -70,7 +69,6 @@ fun signUpScreen(
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-
 
         Button(onClick = {
             navController.navigate("login")

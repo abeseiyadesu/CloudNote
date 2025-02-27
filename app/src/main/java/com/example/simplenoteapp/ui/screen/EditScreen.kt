@@ -10,11 +10,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
@@ -45,14 +48,12 @@ fun EditScreen(
     noteViewModel: NoteViewModel = viewModel(),
     noteId: String
 ) {
-    var inputHeader by remember { mutableStateOf("タイトルを入力") }
-    var inputDetail by remember { mutableStateOf("詳細を入力") }
-
-    // id　に応じたノート を獲得
+    var inputHeader by remember { mutableStateOf("") }
+    var inputDetail by remember { mutableStateOf("") }
 
     // 初期値を設定
     LaunchedEffect(noteId) {
-        if (noteId != "0") {
+        if (noteId != "new") {
             noteViewModel.getNoteById(noteId) { note ->
                 note?.let {
                     inputHeader = it.title
@@ -74,7 +75,9 @@ fun EditScreen(
         )
     }
 
+    // 全体
     Scaffold(
+        // トップバー
         topBar = {
             EditScreenTopBar(
                 navController = navController,
@@ -82,14 +85,23 @@ fun EditScreen(
                 inputHeader = inputHeader,
                 inputDetail = inputDetail
             )
-        }, content = { paddingValue ->
-            EditScreenLayout(paddingValues = paddingValue,
+        },
+        // メモ一覧表示
+        content = { paddingValue ->
+            EditScreenLayout(
+                paddingValues = paddingValue,
                 inputHeader = inputHeader,
                 inputDetail = inputDetail,
                 onHeaderChange = { inputHeader = it },
-                onDetailChange = { inputDetail = it })
-        })
+                onDetailChange = { inputDetail = it },
+
+                )
+        }
+    )
+
+
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,6 +112,8 @@ fun EditScreenTopBar(
     inputHeader: String,
     inputDetail: String
 ) {
+    var showDeleteConfirmDialog by remember { mutableStateOf(false) }
+
     TopAppBar(title = {
         Text("")
     },
@@ -130,7 +144,42 @@ fun EditScreenTopBar(
                     contentDescription = "Back To Home"
                 )
             }
-        })
+        },
+        actions = {
+            IconButton(onClick = { showDeleteConfirmDialog = true }) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "削除",
+                    tint = Color.Red
+                )
+            }
+        }
+    )
+
+
+    if (showDeleteConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteConfirmDialog = false },
+            title = { Text("削除確認") },
+            text = { Text("本当に削除しますか？") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        noteViewModel.deleteNote(noteId) // 削除実行
+                        showDeleteConfirmDialog = false
+                        navController.navigate("home")
+                    }
+                ) {
+                    Text("削除", color = Color.Red)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteConfirmDialog = false }) {
+                    Text("キャンセル")
+                }
+            }
+        )
+    }
 }
 
 // データを保存する関数
@@ -145,28 +194,14 @@ fun NavigateSaveBack(
 ) {
     // どちらも　入力が　空の場合　は　保存しないようにした
     if (inputHeader.trim().isNotBlank() || inputDetail.trim().isNotBlank()) {
-        // 保存用
-        val updatedNote = Note(
-            noteId = noteId,
-            title = inputHeader,
-            content = inputDetail
-        )
-
         // データを保存する（新規作成または編集）
         noteViewModel.saveNote(
             noteId = noteId,
             title = inputHeader,
             content = inputDetail
         )
-
-
-        // `home` 画面へ戻る
-        if (navController.previousBackStackEntry != null) {
-            navController.popBackStack()
-        } else {
-            navController.navigate(route = route) // ホーム画面に戻る
-        }
     }
+    navController.navigate(route = route) // ホーム画面に戻る
 }
 
 @Composable
@@ -189,6 +224,7 @@ fun EditScreenLayout(
         TextField(
             value = inputHeader,
             onValueChange = { newHeader -> onHeaderChange(newHeader) },
+            placeholder = { Text("タイトルを入力") },
             modifier = Modifier
                 .fillMaxWidth()
                 .focusRequester(focusRequester1),
@@ -211,6 +247,7 @@ fun EditScreenLayout(
         TextField(
             value = inputDetail,
             onValueChange = { newDetail -> onDetailChange(newDetail) },
+            placeholder = { Text("詳細を入力") },
             modifier = Modifier
                 .fillMaxSize()
                 .focusRequester(focusRequester2),
@@ -218,7 +255,8 @@ fun EditScreenLayout(
                 unfocusedContainerColor = Color.White,      // 背景色（フォーカス外）
                 focusedContainerColor = Color.White,        // 背景色（フォーカス時）
             ),
+        )
 
-            )
+
     }
 }

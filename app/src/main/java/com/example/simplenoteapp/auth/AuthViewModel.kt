@@ -1,4 +1,4 @@
-package com.example.simplenoteapp.ui.auth
+package com.example.simplenoteapp.auth
 
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
@@ -49,5 +49,4 @@ class AuthViewModel : ViewModel() {
                 }
         }
     }
-
 }

@@ -40,7 +40,6 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -79,7 +78,6 @@ fun HomeScreen(
     navController: NavController,
     noteViewModel: NoteViewModel = viewModel()
 ) {
-
     val notes by noteViewModel.notes.collectAsState()
 
     // Scaffold構造でアプリのレイアウトを構築
@@ -378,8 +376,7 @@ fun DeleteButtonLayout(
         Text(
             text = "削除",
             color = Color.White,
-            fontWeight = FontWeight.Bold,
-
+            fontWeight = FontWeight.Bold
             )
     }
 }
