@@ -190,7 +190,7 @@ fun HomeScreenFloatingActionButton(
         },
         // 形を丸に設定
         shape = CircleShape,
-        containerColor =  Color(0xFF36454F),
+        containerColor = colorResource(id = R.color.top_bar_color),
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
         contentColor = Color.White
     ) {
