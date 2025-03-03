@@ -27,7 +27,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -58,7 +57,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
 import androidx.compose.foundation.gestures.snapTo
-import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
@@ -85,8 +84,8 @@ fun HomeScreen(
 
     // Scaffold構造でアプリのレイアウトを構築
     Scaffold(
+        // トップバー
         topBar = {
-            // トップバー
             HomeScreenTopBar(
                 title = "",
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -98,11 +97,13 @@ fun HomeScreen(
                 navController = navController
             )
         },
+        // ノート追加ボタン
         floatingActionButton = {
             HomeScreenFloatingActionButton(
                 navController = navController
             )
         },
+        // メインコンテンツ
         content = { paddingValues ->
             Column(
                 modifier = Modifier
@@ -127,7 +128,7 @@ fun HomeScreenTopBar(
     authViewModel: AuthViewModel = viewModel()
 ) {
     // ダイアログ表示用
-    var openDialog = remember { mutableStateOf(false) }
+    val openDialog = remember { mutableStateOf(false) }
 
     TopAppBar(
         title = {
@@ -141,16 +142,13 @@ fun HomeScreenTopBar(
                 openDialog.value = true
             }) {
                 Icon(
-                    imageVector = Icons.Default.ExitToApp,
+                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                     contentDescription = "ログアウト"
                 )
             }
-
         }
-
     )
 
-    // 関数化したほうがいい
     // ログアウト確認ダイアログ
     if (openDialog.value) {
         AlertDialog(
@@ -209,11 +207,12 @@ fun HomeScreenLayout(
     navController: NavController,
     noteViewModel: NoteViewModel = viewModel()
 ) {
-    var currentNoteToDelete by remember { mutableStateOf<Note?>(null) } // 削除するノートを一時的に保持
+    // 削除するノートを一時的に保持
+    var currentNoteToDelete by remember { mutableStateOf<Note?>(null) }
 
+    // 全体カラム
     Column(
-        modifier = Modifier
-            .padding(paddingValues)
+        modifier = Modifier.padding(paddingValues)
     ) {
         // ノート数 表示
         HorizontalDivider(thickness = 1.dp)
@@ -231,6 +230,7 @@ fun HomeScreenLayout(
             ),
         ) {
             items(notes) { note ->
+                // 横方向の線
                 HorizontalDivider(thickness = 1.dp)
                 SwipeableRow(
                     noteId = note.noteId,
@@ -255,6 +255,7 @@ fun HomeScreenLayout(
                 onDismissRequest = { currentNoteToDelete = null }, //
                 title = { Text(text = "削除の確認") },
                 text = { Text(text = "本当に削除しますか？この操作は元に戻せません。") },
+                // 削除ボタン
                 confirmButton = {
                     TextButton(
                         onClick = {
@@ -269,6 +270,7 @@ fun HomeScreenLayout(
                         Text(text = "削除")
                     }
                 },
+                // キャンセルボタン
                 dismissButton = {
                     TextButton(
                         onClick = { currentNoteToDelete = null }
@@ -280,7 +282,6 @@ fun HomeScreenLayout(
         }
     }
 }
-
 
 @Composable
 fun NoteItems(
@@ -335,11 +336,8 @@ private fun SwipeableRow(
                 confirmValueChange = {
                     when (it) {
                         OpenedSwipeAbleState.INITIAL -> {
-                            // do nothing
                         }
-
                         OpenedSwipeAbleState.OPENED -> {
-                            // Opened Event
                         }
                     }
                     true
@@ -372,7 +370,6 @@ private fun SwipeableRow(
                             anchorDraggableState.snapTo(OpenedSwipeAbleState.INITIAL)
                         }
                     }
-
                 )
             }
             Box(
@@ -397,7 +394,6 @@ fun DeleteButtonLayout(
             .fillMaxHeight()
             .width(64.dp)
             .background(Color.Red)
-            .padding(8.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     // 長押しなど拡張可能
@@ -431,23 +427,4 @@ fun HomeScreenTopBarPreview() {
         ),
         navController = rememberNavController()
     )
-}
-
-@Preview
-@Composable
-fun HomeScreenLayoutPreview() {
-    val navController = rememberNavController()
-    val paddingValues = PaddingValues(16.dp)
-    // 仮のデータを用意
-//    val notes = listOf(
-//        Note(id = 1, header = "Comic 1", detail = ""),
-//        Note(id = 2, header = "Comic 2", detail = ""),
-//        Note(id = 3, header = "Comic 3", detail = "")
-//    )
-//
-//    HomeScreenLayout(
-//        notes = notes,
-//        paddingValues = paddingValues,
-//        navController = navController
-//    )
 }

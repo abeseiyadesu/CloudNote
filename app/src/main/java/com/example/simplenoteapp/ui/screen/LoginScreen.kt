@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.simplenoteapp.auth.AuthViewModel
@@ -48,7 +47,7 @@ fun LoginScreen(
         Text(text = "ログイン")
 
         Spacer(modifier = Modifier.height(16.dp))
-
+        // メールアドレス入力
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -56,12 +55,11 @@ fun LoginScreen(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-
+        // パスワード入力
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
             label = { Text("パスワード") },
-//            visualTransformation = PasswordVisualTransformation()
         )
 
         Spacer(modifier = Modifier.height(16.dp))

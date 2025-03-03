@@ -24,6 +24,7 @@ class NoteViewModel : ViewModel() {
         }
     }
 
+    // Idに応じたノートを取得
     fun getNoteById(noteId: String, onComplete: (Note?) -> Unit) {
         repository.getNotes { notes ->
             val note = notes.find { it.noteId == noteId }
@@ -34,12 +35,11 @@ class NoteViewModel : ViewModel() {
 
     // メモを保存
     fun saveNote(noteId: String, title: String, content: String) {
-        var finalNoteId = ""
         // noteIdが 0 の時 新規作成
-        if (noteId == "0") {
-            finalNoteId = UUID.randomUUID().toString()
+        val finalNoteId = if (noteId == "0") {
+            UUID.randomUUID().toString()
         } else {
-            finalNoteId = noteId
+            noteId
         }
 
         val note = Note(
@@ -49,6 +49,7 @@ class NoteViewModel : ViewModel() {
             timestamp = System.currentTimeMillis()
         )
 
+        // メモを保存
         viewModelScope.launch {
             repository.saveNote(note)
         }

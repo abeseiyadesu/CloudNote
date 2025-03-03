@@ -22,12 +22,14 @@ import androidx.navigation.NavController
 import com.example.simplenoteapp.auth.AuthViewModel
 
 @Composable
-fun signUpScreen(
+fun SignUpScreen(
     navController: NavController,
     authViewModel: AuthViewModel = AuthViewModel()
 ) {
+    // ユーザー入力用
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    // ユーザーのログイン状態を監視
     val isLoggedIn by authViewModel.isLoggedIn.collectAsState()
 
     // ログイン成功時にホーム画面へ遷移
@@ -38,6 +40,7 @@ fun signUpScreen(
             }
         }
     }
+    // 全体カラム
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,6 +51,7 @@ fun signUpScreen(
         Text(text = "新規登録")
 
         Spacer(modifier = Modifier.height(16.dp))
+        // メールアドレス入力
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -55,21 +59,22 @@ fun signUpScreen(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
+        // パスワード入力
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("パスワード") },
+            label = { Text("パスワード") }
 //            visualTransformation = PasswordVisualTransformation() // 入力したパスワードを***で隠す
         )
 
         Button(onClick = {
+            // 入力されたアカウントを作成
             authViewModel.signUp(email, password)
         }) {
             Text(text = "アカウントを登録")
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-
         Button(onClick = {
             navController.navigate("login")
         }) {

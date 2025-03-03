@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.firebasenoteapp.R
-import com.example.simplenoteapp.ui.data.Note
 import com.example.simplenoteapp.ui.data.NoteViewModel
 
 @Composable
@@ -48,6 +47,7 @@ fun EditScreen(
     noteViewModel: NoteViewModel = viewModel(),
     noteId: String
 ) {
+    // ユーザー入力用
     var inputHeader by remember { mutableStateOf("") }
     var inputDetail by remember { mutableStateOf("") }
 
@@ -155,6 +155,7 @@ fun EditScreenTopBar(
     )
 
 
+    // 削除時ダイアログが出る
     if (showDeleteConfirmDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirmDialog = false },
@@ -202,6 +203,7 @@ fun NavigateSaveBack(
     navController.navigate(route = route) // ホーム画面に戻る
 }
 
+
 @Composable
 fun EditScreenLayout(
     paddingValues: PaddingValues,
@@ -214,7 +216,7 @@ fun EditScreenLayout(
         modifier = Modifier.padding(paddingValues)
     ) {
         // 見出しの部分で改行ボタンを押したとき
-        // 次のtextFieldへフォーカスさせたいため必要
+        // 決定を押したとき 次のtextFieldへ フォーカスさせたいため必要
         val focusRequester1 = remember { FocusRequester() }
         val focusRequester2 = remember { FocusRequester() }
 
@@ -240,7 +242,7 @@ fun EditScreenLayout(
             )
 
         )
-        // メモ
+        // 詳細入力
         TextField(
             value = inputDetail,
             onValueChange = { newDetail -> onDetailChange(newDetail) },

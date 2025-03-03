@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import com.example.simplenoteapp.ui.home.HomeScreen
 import com.example.simplenoteapp.ui.screen.EditScreen
 import com.example.simplenoteapp.ui.screen.LoginScreen
-import com.example.simplenoteapp.ui.screen.signUpScreen
+import com.example.simplenoteapp.ui.screen.SignUpScreen
 
 @Composable
 fun NoteApp(startDestination: String = "login") {
@@ -26,12 +26,14 @@ fun NoteApp(startDestination: String = "login") {
 
         NavHost(navController = navController, startDestination = startDestination) {
 
+            // ログイン画面へ
             composable("login"){
                 LoginScreen(navController)
             }
 
+            // アカウント作成画面へ
             composable("signup"){
-                signUpScreen(navController)
+                SignUpScreen(navController)
             }
             // ホーム画面へ移動
             composable(
@@ -52,7 +54,7 @@ fun NoteApp(startDestination: String = "login") {
                         type = androidx.navigation.NavType.StringType
                     }
                 ),
-                // 移動する方に書く
+                // 左から右へスライドイン
                 enterTransition = {
                     slideIntoContainer(
                         animationSpec = tween(100, easing = EaseIn),
@@ -60,7 +62,8 @@ fun NoteApp(startDestination: String = "login") {
                         // ➙
                         towards = AnimatedContentTransitionScope.SlideDirection.Start
                     )
-                },  // 左から右へスライドイン
+                },
+                // 右から左へスライドアウト
                 exitTransition = {
                     slideOutOfContainer(
                         animationSpec = tween(100, easing = EaseOut),
@@ -68,7 +71,7 @@ fun NoteApp(startDestination: String = "login") {
                         // ←
                         towards = AnimatedContentTransitionScope.SlideDirection.End
                     )
-                }   // 右から左へスライドアウト
+                }
             ) { backStackEntry ->
                 val noteId = backStackEntry.arguments?.getString("noteId")
                 // nullチェック
@@ -79,34 +82,6 @@ fun NoteApp(startDestination: String = "login") {
                     )
                 }
             }
-//
-//            // フリースペースへ遷移
-//            composable(
-//                route = "freespace",
-//
-//                // 移動する方に書く
-//                enterTransition = {
-//                    slideIntoContainer(
-//                        animationSpec = tween(100, easing = EaseIn),
-//                        // アニメーションが進行する方向を指定するプロパティ
-//                        // ➙
-//                        towards = AnimatedContentTransitionScope.SlideDirection.Start
-//                    )
-//                },  // 左から右へスライドイン
-//                exitTransition = {
-//                    slideOutOfContainer(
-//                        animationSpec = tween(100, easing = EaseOut),
-//                        // アニメーションが進行する方向を指定するプロパティ
-//                        // ←
-//                        towards = AnimatedContentTransitionScope.SlideDirection.End
-//                    )
-//                }   // 右から左へスライドアウト
-//            ) {
-//                FreeSpaceScreen(
-//                    navController = navController,
-//                )
-//            }
-
         }
     }
 }
