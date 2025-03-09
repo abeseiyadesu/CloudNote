@@ -24,6 +24,7 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
  - ノートを押すと編集可能
  - ホームでノートを左スワイプすると削除ボタンが出現
  - 削除時アラート確認機能
+ - 
 <br>  
 
 ## 工夫した点
