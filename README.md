@@ -24,7 +24,6 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
  - ノートを押すと編集可能
  - ホームでノートを左スワイプすると削除ボタンが出現
  - 削除時アラート確認機能
- - 
 <br>  
 
 ## 工夫した点
@@ -53,13 +52,11 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
 - Firebaseの設定を見直し
 - アカウントの再作成 Firebaseプロジェクトの再構成
 - 別の端末で実行
-<br>  
-
+<br>
 
 ##### 解決方法
 - 海外の技術フォーラムを活用し、エラーログを分析。
 - Firebase側の設定ミスが原因だったことを突き止め、適切な権限設定を行うことで解決。
-
 
 #### テスト環境で動作したが、本番環境でデータを保存できなかった
 - いきなりアプリに導入は怖かったので、テスト用アプリを作成し、テストコードを書きました
@@ -75,13 +72,25 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
 - Firebase Authenticationに登録されたアカウントがなく、また匿名ユーザーの設定もなかったため、
 - どのアカウントにデータを紐づけるのかFirebase側で判別できず保存ができない状態だった。
 - 匿名ユーザーを有効化することで、データ保存が可能になった。
-
 <br>  
 
 ## **学んだこと**
 - Firebaseの基本的な仕組み（Authentication・Firestore）
 - テスト環境と本番環境での挙動の違いとデバッグ方法
 - 海外の技術情報の活用方法
+- 既存のコードをさらにリファクタリングできるということ
+<br>
 
-<br>  
+ホーム画面
+![SimpleNote_6](https://github.com/user-attachments/assets/9f61641c-a90c-48bf-90ee-5a22c02c2b4f)
+
+削除時　
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8e142e28-bdc5-4c16-8e47-5ed9b061bb9a" width="300">
+  <img src="https://github.com/user-attachments/assets/561c0f2b-21ee-4167-91f6-a470ee3da5e9" width="300">
+</p>
+
+編集・追加画面
+![SimpleNote_1](https://github.com/user-attachments/assets/af2b33c2-a717-4af6-8ad9-2bda945a35b3)
+
 
