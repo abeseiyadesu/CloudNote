@@ -84,6 +84,7 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
 最初にログイン・新規登録画面が出ます
 
 ![CloudNote_3](https://github.com/user-attachments/assets/96dc6f00-8c1a-4325-9a94-721f002ed7b7)
+<br>
 
 
 ログイン 新規作成するとホーム画面へ
@@ -102,8 +103,10 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
 編集画面
 
 ![CloudNote_2](https://github.com/user-attachments/assets/9812e4b8-2223-4886-bc15-bf309c64b52d)
+<br>
 
 右上の削除ボタンを押すと削除できます
 
 ![CloudNote_4](https://github.com/user-attachments/assets/e88b22d6-4393-4abc-b42f-f8e648b08e90)
+<br>
 
