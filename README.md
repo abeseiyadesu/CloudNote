@@ -90,7 +90,9 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
   <img src="https://github.com/user-attachments/assets/561c0f2b-21ee-4167-91f6-a470ee3da5e9" width="300">
 </p>
 
+
 編集・追加画面
+
 ![SimpleNote_1](https://github.com/user-attachments/assets/af2b33c2-a717-4af6-8ad9-2bda945a35b3)
 
 
