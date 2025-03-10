@@ -82,6 +82,7 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
 <br>
 
 ホーム画面
+
 ![SimpleNote_6](https://github.com/user-attachments/assets/9f61641c-a90c-48bf-90ee-5a22c02c2b4f)
 
 削除時　
