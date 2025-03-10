@@ -80,3 +80,26 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
 - 海外の技術情報の活用方法
 - 既存のコードをさらにリファクタリングできるということ
 <br>
+
+最初にログイン・新規登録画面が出ます
+![CloudNote_3](https://github.com/user-attachments/assets/96dc6f00-8c1a-4325-9a94-721f002ed7b7)
+
+
+ログイン 新規作成するとホーム画面へ
+右上のアイコンタップでログアウト
+<p>
+  <img src="https://github.com/user-attachments/assets/1191e392-5c64-4df8-af2e-871135a6ebf8" width="300">
+  <img src="https://github.com/user-attachments/assets/09d4e2e5-d791-4d55-9f42-bd73baf3c926" width="300">
+</p>
+
+スワイプすると削除ボタンが出現
+<p>
+  <img src="https://github.com/user-attachments/assets/24e5c55f-0c04-4e3f-b8a4-75d0b41a0019" width="300">
+  <img src="https://github.com/user-attachments/assets/e92b8c8b-eeb7-42c0-84e8-4fb9a12b8862" width="300">
+</p>
+
+編集画面
+![CloudNote_2](https://github.com/user-attachments/assets/9812e4b8-2223-4886-bc15-bf309c64b52d)
+右上の削除ボタンを押すと削除できます
+![CloudNote_4](https://github.com/user-attachments/assets/e88b22d6-4393-4abc-b42f-f8e648b08e90)
+
