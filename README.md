@@ -24,11 +24,6 @@ kotlin / Android Studio / Jetpack Compose / Firebase <br>
  - ホームでノートを左スワイプすると削除ボタンが出現
  - 削除時アラート確認機能
 <br>
-## ゲストアカウントでログイン
-ゲストとしてアプリを試すことができます。以下のログイン情報でログインしてください：
-
-- **メールアドレス**: guestaccount@gmail.com
-- **パスワード**: guestaccount11
 
 ## 工夫した点
 ### **自動ログイン**
